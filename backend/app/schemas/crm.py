@@ -56,3 +56,53 @@ class BusinessOut(BusinessBase):
     tags: List[TagOut] = []
     
     model_config = ConfigDict(from_attributes=True)
+
+# ── Contact schemas ──────────────────────────────────────────────
+
+class ContactBase(BaseModel):
+    first_name: str
+    last_name: Optional[str] = None
+    job_title: Optional[str] = None
+    email: Optional[EmailStr] = None
+    phone: Optional[str] = None
+    linkedin_url: Optional[HttpUrl] = None
+    is_primary: bool = False
+
+class ContactCreate(ContactBase):
+    business_id: uuid.UUID
+
+class ContactUpdate(BaseModel):
+    first_name: Optional[str] = None
+    last_name: Optional[str] = None
+    job_title: Optional[str] = None
+    email: Optional[EmailStr] = None
+    phone: Optional[str] = None
+    linkedin_url: Optional[HttpUrl] = None
+    is_primary: Optional[bool] = None
+
+class ContactOut(ContactBase):
+    id: uuid.UUID
+    business_id: uuid.UUID
+    created_at: datetime
+    updated_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
+
+# ── Note schemas ─────────────────────────────────────────────────
+
+class NoteBase(BaseModel):
+    content: str
+
+class NoteCreate(NoteBase):
+    business_id: uuid.UUID
+
+class NoteUpdate(BaseModel):
+    content: Optional[str] = None
+
+class NoteOut(NoteBase):
+    id: uuid.UUID
+    business_id: uuid.UUID
+    author_id: Optional[uuid.UUID] = None
+    created_at: datetime
+
+    model_config = ConfigDict(from_attributes=True)
